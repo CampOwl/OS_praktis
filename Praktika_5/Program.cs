@@ -25,7 +25,7 @@ namespace pls
 
   class Program
   {
-    int count = 65535;//размер свободной памяти
+    static int count = 65535;//размер свободной памяти
     static List<MemoryArea> memory = new List<MemoryArea>();//состояния областей памяти
     static void Insert()
     {
@@ -36,7 +36,7 @@ namespace pls
       bool flag = false;
       for(int i = 0; i < memory.Count; i++)
       {
-        Console.WriteLine(memory[i].start+"---"+ memory[i].finish);
+        //Console.WriteLine(memory[i].start+"---"+ memory[i].finish);
         if ( !memory[i].state && memory[i].Size() >= size)
         {
           MemoryArea temp = memory[i];
@@ -123,18 +123,21 @@ namespace pls
     }
     static void LookAt()
     {
-      int count = 0;
+      int counter = 0;
       bool flag = true;
+      int sizeMemory = count;
       for (int i = 0; i < memory.Count; i++)
       {
         if (memory[i].state)
         {
           flag = false;
-          Console.WriteLine($"{count+1} процесс занимает {memory[i].Size()} байт и начинается с {memory[i].start} байта.");
-          count++;
+          Console.WriteLine($"{counter+1} процесс занимает {memory[i].Size()} байт: с {memory[i].start} по {memory[i].finish}");
+          counter++;
+          sizeMemory -= memory[i].Size();
         }
       }
-      if (flag) Console.WriteLine("память пуста\n");
+      if (flag) Console.WriteLine("память свободна\n");
+      Console.WriteLine("свободно "+ sizeMemory +" байт\n");
     }
     static void Main()
     {
